@@ -53,14 +53,14 @@ app.post('/api/shorturl', bodyParser.urlencoded(), (req,res) =>{
       res.json({ error: 'invalid url' });
     } else {
       // if no error exists
-      res.json({ original_url : originalurl.toString(), short_url : 1});
+      res.json({ original_url : originalurl, short_url : r});
     }
   });
 
   
 });
 
-app.get(`/api/shorturl/1`, (req, res) => {
+app.get(`/api/shorturl/:r`, (req, res) => {
   console.log(originalurl);
   res.redirect(originalurl);
 });
