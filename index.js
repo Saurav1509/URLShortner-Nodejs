@@ -4,6 +4,8 @@ const express = require('express');
 const cors = require('cors');
 // var validUrl = require('valid-url');
 const dns = require("dns");
+const url = require('url'); 
+const { parse } = require('path');
 
 const app = express();
 
@@ -41,8 +43,10 @@ app.post('/api/shorturl', bodyParser.urlencoded(), (req,res) =>{
   // else {
   //   res.json({ error: 'invalid url' });
   // }
+  const parsedLookupUrl = url.parse(originalurl);
+  console.log(parsedLookupUrl.host)
 
-  dns.lookup(originalurl, (error, address, family) => {
+  dns.lookup(parsedLookupUrl.host, (error, address, family) => {
   
     // if an error occurs, eg. the hostname is incorrect!
     if (error) {
