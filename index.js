@@ -2,7 +2,9 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const cors = require('cors');
-var validUrl = require('valid-url');
+// var validUrl = require('valid-url');
+const dns = require("dns");
+
 const app = express();
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -32,14 +34,24 @@ app.post('/api/shorturl', bodyParser.urlencoded(), (req,res) =>{
   originalurl = req.body.url;
   r = (Math.random() + 1).toString(36).substring(7);
 
-  let url = originalurl
-  if (validUrl.isUri(url)){
-    
-    res.json({ original_url : originalurl, short_url : 1});
-  } 
-  else {
-    res.json({ error: 'invalid url' });
-  }
+  // let url = originalurl
+  // if (validUrl.isUri(url)){
+  //   res.json({ original_url : originalurl, short_url : 1});
+  // } 
+  // else {
+  //   res.json({ error: 'invalid url' });
+  // }
+
+  dns.lookup(originalurl, (error, address, family) => {
+  
+    // if an error occurs, eg. the hostname is incorrect!
+    if (error) {
+      res.json({ error: 'invalid url' });
+    } else {
+      // if no error exists
+      res.json({ original_url : originalurl, short_url : 1});
+    }
+  });
 
   
 });
