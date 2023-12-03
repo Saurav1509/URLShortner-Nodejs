@@ -2,6 +2,7 @@
 const bodyParser = require('body-parser');
 const express = require('express');
 const cors = require('cors');
+var validUrl = require('valid-url');
 const app = express();
 
 app.use(bodyParser.urlencoded({extended: true}));
@@ -30,7 +31,17 @@ app.post('/api/shorturl', bodyParser.urlencoded(), (req,res) =>{
   console.log(req.body.url)
   originalurl = req.body.url;
   r = (Math.random() + 1).toString(36).substring(7);
-  res.json({ original_url : originalurl, short_url : 1});
+
+  let url = originalurl
+  if (validUrl.isUri(url)){
+    
+    res.json({ original_url : originalurl, short_url : 1});
+  } 
+  else {
+    res.json({ error: 'invalid url' });
+  }
+
+  
 });
 
 app.get(`/api/shorturl/1`, (req, res) => {
