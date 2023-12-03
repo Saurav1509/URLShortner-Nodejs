@@ -44,9 +44,9 @@ app.post('/api/shorturl', bodyParser.urlencoded(), (req,res) =>{
   //   res.json({ error: 'invalid url' });
   // }
   const parsedLookupUrl = url.parse(originalurl);
-  console.log(parsedLookupUrl.host)
+  console.log(parsedLookupUrl.hostname)
 
-  dns.lookup(parsedLookupUrl.host, (error, address, family) => {
+  dns.lookup(parsedLookupUrl.hostname, (error, address, family) => {
   
     // if an error occurs, eg. the hostname is incorrect!
     if (error) {
