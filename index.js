@@ -49,15 +49,13 @@ app.post('/api/shorturl', bodyParser.urlencoded(), (req,res) =>{
   dns.lookup(parsedLookupUrl.hostname, (error, address, family) => {
   
     // if an error occurs, eg. the hostname is incorrect!
-    if (error) {
+    if (!address) {
       res.json({ error: 'invalid url' });
     } else {
       // if no error exists
       res.json({ original_url : originalurl, short_url : r});
     }
   });
-
-  
 });
 
 app.get(`/api/shorturl/:r`, (req, res) => {
